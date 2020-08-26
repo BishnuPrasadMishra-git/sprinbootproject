@@ -1,5 +1,6 @@
 package com.cts.customer.controller;
 
+import static com.cts.customer.request.utils.RequestTestDataFile.REQUEST_INFORMATION_REQUEST;
 import static com.cts.customer.testdata.CustomerTestData.inputDataForViewCustomer;
 import static com.cts.customer.testdata.CustomerTestData.inputDataForViewCustomerDetails;
 import static com.cts.customer.testdata.CustomerTestData.inputForCreateCustomer;
@@ -9,8 +10,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -27,13 +28,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import static com.cts.customer.request.utils.RequestTestDataFile.REQUEST_INFORMATION_REQUEST;
 
 import com.cts.customer.dto.CustomerDto;
 import com.cts.customer.service.CustomerService;
@@ -50,7 +47,7 @@ public class CustomerRestControllerTest {
 	private CustomerService service;
 
 	private MockMvc mockMvc;
-	
+
 	private static String createNewCustomerRequestJson;
 
 	@Before
@@ -59,30 +56,31 @@ public class CustomerRestControllerTest {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 	}
-	
+
 	@BeforeClass
 	public static void init() {
-		createNewCustomerRequestJson =REQUEST_INFORMATION_REQUEST.getJsonString();
+		createNewCustomerRequestJson = REQUEST_INFORMATION_REQUEST.getJsonString();
 	}
 
-/*	@Test
-	public void testCreateCustomer() throws Exception {
+	/*
+	 * @Test public void testCreateCustomer() throws Exception {
+	 * 
+	 * String url = "/customer/v1/create"; // input and response data CustomerDto
+	 * customerDto = inputForCreateCustomer();
+	 * 
+	 * Mockito.when(service.createCustomer(Mockito.any(CustomerDto.class))).
+	 * thenReturn(customerDto);
+	 * 
+	 * mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_VALUE).
+	 * content(asJsonString(customerDto)))
+	 * .andExpect(status().isCreated()).andReturn();
+	 * 
+	 * verify(service, times(1)).createCustomer(customerDto);
+	 * verifyNoMoreInteractions(service);
+	 * 
+	 * }
+	 */
 
-		String url = "/customer/v1/create";
-		// input and response data
-		CustomerDto customerDto = inputForCreateCustomer();
-
-		Mockito.when(service.createCustomer(Mockito.any(CustomerDto.class))).thenReturn(customerDto);
-
-		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(customerDto)))
-				.andExpect(status().isCreated()).andReturn();
-
-		verify(service, times(1)).createCustomer(customerDto);
-		verifyNoMoreInteractions(service);
-
-	}
-	*/
-	
 	@Test
 	public void testCreateCustomer() throws Exception {
 
@@ -99,35 +97,29 @@ public class CustomerRestControllerTest {
 		verifyNoMoreInteractions(service);
 
 	}
-	
-	
+
 	@Test
-	@PutMapping(value = "/update/{id}/{address}")
-	public void testUpdateCustomer() throws Exception{
-		
+	public void testUpdateCustomer() throws Exception {
+
 		String url = "/customer/v1/update/{id}/{address}";
-		//input data
+		// input data
 		int id = 1;
 		String address = "varthurUpdate";
-		
-		//response
-		CustomerDto customerDto = inputDataForViewCustomer(); 
-		customerDto.setAddress(address);
-		
-		//Mock
-		Mockito.when(service.updateCustomer(Mockito.anyInt(),Mockito.anyString())).thenReturn(customerDto);
-		
-		
-		mockMvc.perform(put(url,id,address).contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(customerDto)))
-		.andExpect(status().isOk()).andReturn();
-		
-		
-		//verify(service, times(1)).updateCustomer(id, address);
-		//verifyNoMoreInteractions(service);
 
-		
+		// response
+		CustomerDto customerDto = inputDataForViewCustomer();
+		customerDto.setAddress(address);
+
+		// Mock
+		Mockito.when(service.updateCustomer(Mockito.anyInt(), Mockito.anyString())).thenReturn(customerDto);
+
+		mockMvc.perform(patch(url, id, address).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(asJsonString(customerDto))).andExpect(status().isOk()).andReturn();
+
+		verify(service, times(1)).updateCustomer(id, address);
+		verifyNoMoreInteractions(service);
+
 	}
-	
 
 	@Test
 	public void testGetCustomeretails() throws Exception {

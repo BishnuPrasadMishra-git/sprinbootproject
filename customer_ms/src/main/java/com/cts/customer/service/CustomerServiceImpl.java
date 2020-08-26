@@ -30,28 +30,25 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public CustomerDto updateCustomer(Integer id,String address) {
+	public CustomerDto updateCustomer(Integer id, String address) {
 
 		CustomerDto customerDto = null;
 		Customer customer = null;
 		try {
-		customer = repositry.getOne(id);
-		customer.setAddress(address);
-		customer = repositry.save(customer);
-		ObjectMapper mapper = new ObjectMapper();
-		customerDto = mapper.convertValue(customer, CustomerDto.class);
-		}catch(Exception e) {
-			
-		}
-		
+			customer = repositry.getOne(id);
+			customer.setAddress(address);
+			customer = repositry.save(customer);
+			ObjectMapper mapper = new ObjectMapper();
+			customerDto = mapper.convertValue(customer, CustomerDto.class);
+		} catch (Exception e) {
 
-		
+		}
+
 		return customerDto;
 	}
 
 	@Override
 	public List<CustomerDto> getCustomerDetails() {
-
 
 		List<Customer> list = repositry.findAll();
 		ObjectMapper mapper = new ObjectMapper();
@@ -75,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<CustomerDto> getCustomerByName(String firstName, String lastName) {
-	
+
 		List<Customer> customers = repositry.findByFirstNameOrLastName(firstName, lastName);
 		ObjectMapper mapper = new ObjectMapper();
 		List<CustomerDto> listOfCustomer = mapper.convertValue(customers, List.class);

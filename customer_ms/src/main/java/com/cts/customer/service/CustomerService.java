@@ -2,8 +2,6 @@ package com.cts.customer.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.cts.customer.dto.CustomerDto;
 
 public interface CustomerService {

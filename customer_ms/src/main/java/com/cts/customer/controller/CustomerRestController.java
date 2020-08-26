@@ -1,16 +1,15 @@
 package com.cts.customer.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +21,8 @@ import com.cts.customer.service.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 @Api(value = "CustomerService", produces = "application/json")
 @RestController
 @RequestMapping("/customer/v1")
@@ -43,6 +42,7 @@ public class CustomerRestController {
 	@PostMapping(value = "/create")
 	public ResponseEntity<CustomerDto> createCustomer(
 			@ApiParam(value = "information required to create customer" ,required=true ,name="Create Customer Request") @RequestBody CustomerDto customerDto) {
+		
 		CustomerDto customer = service.createCustomer(customerDto);
 		return new ResponseEntity<CustomerDto>(customer, HttpStatus.CREATED);
 	}
@@ -56,7 +56,7 @@ public class CustomerRestController {
 			@ApiResponse(code = 403, message = "Forbidden" ),
 			@ApiResponse(code = 405, message = "Not Found" )})
 		
-	@PutMapping(value = "/update/{id}/{address}")
+	@PatchMapping(value = "/update/{id}/{address}")
 	public ResponseEntity<CustomerDto> updateCustomer(
 			@ApiParam(value = "id required to update customer" ,required=true ,name="id") @PathVariable("id") Integer id,
 			@ApiParam(value = "address required to update customer" ,required=true ,name="address") @PathVariable("address") String address) {
