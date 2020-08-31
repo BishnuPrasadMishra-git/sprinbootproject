@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Data
+//@Data
 @Entity
 @Table(name="Customer")
 public class Customer {
@@ -29,5 +29,47 @@ public class Customer {
 	
 	@Column(name = "ADDRESS")
 	private String address;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
 
 }
